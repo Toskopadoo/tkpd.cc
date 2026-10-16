@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Site</title>
+    <style>
+        /* Remove margens e garante que a página ocupe toda a tela */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000; /* Cor de fundo caso a foto demore a carregar */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Estiliza a foto para preencher a tela mantendo a proporção */
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Use 'cover' se quiser que preencha 100% cortando as bordas */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Substitua o link abaixo pelo caminho ou URL da sua foto -->
+    <img src="foto.jpg" alt="CLT de verdade odeia quem é contra o desenvolvimento dele. VAI TOMAR NO CU, PT!">
+
+</body>
+</html>
