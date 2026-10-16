@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Salário & Finanças Pro - Calculadora Integrada</title>
+    <style>
+
+ <!-- VIBECODADO COM GOOGLE AI STUDIO, 0 MÃO HUMANA NO CÓDIGO ABAIXO (NÃO ACHEI NENHUM APP QUE TINHA ESSAS EXATAS FUNCIONABILIDADES, RECORRI A IA.). -->
+
+        :root {
+            --primary: #006c4c;
+            --primary-light: #8df7c8;
+            --primary-dark: #003825;
+            --primary-hover: #00875f;
+            --bg-color: #f6f8f6;
+            --surface-color: #ffffff;
+            --surface-card: #ffffff;
+            --surface-variant: #e8eee9;
+            --text-main: #191c1a;
+            --text-muted: #5d6761;
+            --border-color: #dbe4dd;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning: #d97706;
+            --info: #2563eb;
+            --card-shadow: 0 4px 14px rgba(0,0,0,0.05);
+            --header-h: 60px;
+            --nav-h: 64px;
+            --border-radius: 14px;
+        }
+
+        [data-theme="dark"] {
+            --primary: #70dbac;
+            --primary-light: #005138;
+            --primary-dark: #8df7c8;
+            --primary-hover: #52c794;
+            --bg-color: #111412;
+            --surface-color: #191c1a;
+            --surface-card: #1f2320;
+            --surface-variant: #2d332f;
+            --text-main: #e2e8e4;
+            --text-muted: #9aa59e;
+            --border-color: #38413b;
+            --card-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: calc(var(--nav-h) + 20px);
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        /* TOP APP BAR */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            height: var(--header-h);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #006c4c, #16a34a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 6px rgba(0,108,76,0.3);
+        }
+
+        .header-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .header-subtitle {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            background: var(--surface-variant);
+            border: none;
+            color: var(--text-main);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .icon-btn:active {
+            transform: scale(0.92);
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.25s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--surface-card);
+            border-radius: var(--border-radius);
+            padding: 18px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--card-shadow);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-header-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--surface-variant);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .card-subtitle {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 14px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-unit-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            background: var(--surface-variant);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+        }
+
+        input[type="number"], input[type="text"], select {
+            width: 100%;
+            height: 46px;
+            padding: 0 12px;
+            border: 1.5px solid var(--border-color);
+            background: var(--surface-color);
+            color: var(--text-main);
+            border-radius: 10px;
+            font-size: 0.98rem;
+            font-weight: 500;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 108, 76, 0.15);
+        }
+
+        .help-text {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+            margin-top: 2px;
+        }
+
+        .switch-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--border-color);
+            transition: .25s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .25s;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+
+        .chips-container {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+
+        .chip-btn {
+            background: var(--surface-variant);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chip-btn.active, .chip-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .item-card {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: var(--surface-variant);
+            padding: 10px;
+            border-radius: 10px;
+            transition: background 0.2s;
+        }
+
+        .item-card input[type="text"] {
+            flex: 1.4;
+            height: 40px;
+            padding-left: 10px;
+        }
+
+        .item-card .item-val-wrap {
+            flex: 1;
+            position: relative;
+        }
+
+        .item-card input[type="number"] {
+            height: 40px;
+            padding-left: 10px;
+        }
+
+        .btn-delete {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(220, 38, 38, 0.12);
+            color: var(--danger);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-delete:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-add {
+            background: var(--surface-variant);
+            color: var(--primary);
+            border: 1.5px dashed var(--primary);
+            width: 100%;
+            height: 44px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-add:hover {
+            background: var(--primary);
+            color: white;
+            border-style: solid;
+        }
+
+        .summary-card {
+            background: linear-gradient(145deg, #19241e, #131d17);
+            color: #ffffff;
+            border-radius: var(--border-radius);
+            padding: 22px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .summary-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+
+        .summary-badge {
+            background: rgba(255,255,255,0.12);
+            color: #8df7c8;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-row .label {
+            color: #94a3b8;
+        }
+
+        .summary-row .val {
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+
+        .val-add { color: #4ade80 !important; }
+        .val-sub { color: #f87171 !important; }
+        .val-highlight { color: #38bdf8 !important; }
+
+        .summary-total-box {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 14px;
+            text-align: center;
+            border: 1px solid rgba(141, 247, 200, 0.2);
+        }
+
+        .summary-total-label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+        }
+
+        .summary-total-val {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #34d399;
+            margin-top: 4px;
+        }
+
+        .btn-action-primary {
+            width: 100%;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 108, 76, 0.25);
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+
+        .btn-action-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-action-outline {
+            width: 100%;
+            height: 46px;
+            background: transparent;
+            color: var(--primary);
+            border: 1.5px solid var(--primary);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+
+        .btn-action-outline:hover {
+            background: rgba(0, 108, 76, 0.08);
+        }
+
+        .timeline-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--surface-variant);
+            padding: 14px 16px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .timeline-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .timeline-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: var(--surface-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        nav.bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-h);
+            background: var(--surface-color);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            z-index: 100;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.04);
+        }
+
+        .nav-item {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            gap: 3px;
+        }
+
+        .nav-icon {
+            font-size: 1.25rem;
+            transition: transform 0.2s;
+        }
+
+        .nav-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item.active .nav-icon {
+            transform: translateY(-2px);
+        }
+
+        #toast {
+            position: fixed;
+            bottom: calc(var(--nav-h) + 16px);
+            left: 50%;
+            transform: translateX(-50%) translateY(30px);
+            background: #1e293b;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28), opacity 0.25s ease;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                padding-bottom: 0 !important;
+            }
+            header, nav.bottom-nav, .btn-action-primary, .btn-action-outline, .btn-add, .btn-delete, .icon-btn {
+                display: none !important;
+            }
+            .tab-content {
+                display: block !important;
+                page-break-after: always;
+            }
+            .summary-card {
+                background: white !important;
+                color: black !important;
+                border: 2px solid #ccc !important;
+            }
+            .summary-total-box {
+                border: 2px solid #006c4c !important;
+            }
+            .summary-total-val {
+                color: #006c4c !important;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+    <header>
+        <div class="header-brand">
+            <div class="header-logo">R$</div>
+            <div>
+                <div class="header-title">Salário & Finanças Pro</div>
+                <div class="header-subtitle">CLT Oficial • Provisão • Balanço</div>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn" title="Copiar Resumo" onclick="copiarResumoTexto()">📋</button>
+            <button class="icon-btn" title="Imprimir ou Salvar PDF" onclick="window.print()">🖨️</button>
+            <button class="icon-btn" id="themeToggleBtn" title="Alternar Modo Escuro" onclick="toggleTheme()">🌙</button>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- ==============================================
+             ABA 1: SALÁRIO CLT & FINANÇAS
+             ============================================== -->
+        <div id="tab-salario" class="tab-content active">
+
+            <!-- 1. Dados Base -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        <div class="badge-icon">💼</div>
+                        <div>
+                            <div class="card-title">1. Dados do Salário e Horas</div>
+                            <div class="card-subtitle">Informe o valor por hora ou o salário bruto fixo</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="salarioHora">
+                            <span>Salário por Hora:</span>
+                            <span class="input-unit-badge">R$</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="salarioHora" step="0.0001" placeholder="0.00" oninput="calcularGeral()">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="horasMes">
+                            <span>Horas Trabalhadas no Mês:</span>
+                            <span class="input-unit-badge">h</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="horasMes" step="1" value="220" oninput="calcularGeral()">
+                        </div>
+                        <span class="help-text">Padrão CLT: 220 horas para escala de 44h semanais</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="horasFalta">
+                            <span>Horas de Falta no Mês:</span>
+                            <span class="input-unit-badge">h</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="horasFalta" step="0.5" value="0.00" oninput="calcularGeral()">
+                        </div>
+                        <span class="help-text">Desconta proporcionalmente do salário base</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="horasDiariasTurno">
+                            <span>Carga Horária Diária (Turno):</span>
+                            <span class="input-unit-badge">h</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="horasDiariasTurno" step="0.01" value="7.33" oninput="calcularGeral()">
+                        </div>
+                        <span class="help-text">Ex: 7h20min = 7.33 horas (para cálculo de feriado)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Feriados e Horas Extras (Opções Úteis) -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        <div class="badge-icon">⏰</div>
+                        <div>
+                            <div class="card-title">2. Feriados e Horas Extras (CLT)</div>
+                            <div class="card-subtitle">Adicionais de 50%, 100% e cálculo de DSR</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="qtdFeriados">
+                            <span>Qtd de Feriados Trabalhados:</span>
+                            <span class="input-unit-badge">dias</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="qtdFeriados" step="1" min="0" placeholder="0" oninput="calcularGeral()">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="percentualFeriado">
+                            <span>Adicional por Feriado:</span>
+                            <span class="input-unit-badge">%</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="percentualFeriado" step="1" value="100" oninput="calcularGeral()">
+                        </div>
+                        <span class="help-text">100% para pagamento em dobro (Regra CLT)</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="he50">
+                            <span>Horas Extras 50% (Dias úteis):</span>
+                            <span class="input-unit-badge">h</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="he50" step="0.5" placeholder="0" oninput="calcularGeral()">
+                        </div>
+                        <span class="help-text">Adicional de 50% sobre o salário hora</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="he100">
+                            <span>Horas Extras 100% (Domingos):</span>
+                            <span class="input-unit-badge">h</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="he100" step="0.5" placeholder="0" oninput="calcularGeral()">
+                        </div>
+                        <span class="help-text">Adicional de 100% sobre o salário hora</span>
+                    </div>
+                </div>
+
+                <div class="switch-row" style="margin-top: 10px;">
+                    <div>
+                        <div style="font-size: 0.9rem; font-weight: 600;">Calcular DSR sobre Horas Extras</div>
+                        <div class="help-text">Descanso Semanal Remunerado automático conforme CLT</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="calcularDsr" checked onchange="calcularGeral()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 3. Descontos Legais (INSS, IRRF, VT) -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        <div class="badge-icon">⚖️</div>
+                        <div>
+                            <div class="card-title">3. Descontos Legais (INSS, IRRF e VT)</div>
+                            <div class="card-subtitle">Retenções oficiais obrigatórias por lei</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="switch-row">
+                    <div>
+                        <div style="font-size: 0.92rem; font-weight: 600;">Descontar INSS Automático</div>
+                        <div class="help-text">Tabela progressiva da Previdência Social (7,5% a 14% - teto R$ 908,86)</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="descontarInss" checked onchange="calcularGeral()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="switch-row" style="border-top: 1px solid var(--border-color); padding-top: 10px;">
+                    <div>
+                        <div style="font-size: 0.92rem; font-weight: 600;">Descontar IRRF (Imposto de Renda)</div>
+                        <div class="help-text">Aplica a regra mais benéfica (deduções legais ou desconto simplificado oficial)</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="descontarIrrf" checked onchange="calcularGeral()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="form-grid" id="grupoIrrf" style="margin-top: 10px;">
+                    <div class="form-group">
+                        <label for="numDependentes">
+                            <span>Número de Dependentes IRRF:</span>
+                            <span class="input-unit-badge">qtd</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="numDependentes" step="1" min="0" placeholder="0" oninput="calcularGeral()">
+                        </div>
+                        <span class="help-text">Dedução de R$ 189,59 por dependente legal</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pensaoAlimenticia">
+                            <span>Pensão Alimentícia Judicial:</span>
+                            <span class="input-unit-badge">R$</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="pensaoAlimenticia" step="0.01" placeholder="0.00" oninput="calcularGeral()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 14px;">
+                    <label for="tipoVt">Modo do Vale-Transporte (VT):</label>
+                    <select id="tipoVt" class="no-prefix" onchange="calcularGeral()">
+                        <option value="nenhum">Não descontar / Não utilizo</option>
+                        <option value="6porcento" selected>Até 6% do Salário Base (Padrão CLT)</option>
+                        <option value="valorfixo">Valor Fixo Personalizado</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="grupoValorVt" style="display: none; margin-top: 10px;">
+                    <label for="valorVtFixo">
+                        <span>Valor Fixo do VT a Descontar:</span>
+                        <span class="input-unit-badge">R$</span>
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="number" id="valorVtFixo" step="0.01" placeholder="0.00" oninput="calcularGeral()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Benefícios / Adicionais -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        <div class="badge-icon">🎁</div>
+                        <div>
+                            <div class="card-title">4. Adicionais e Benefícios</div>
+                            <div class="card-subtitle">Vales, premiações, ajuda de custo e bônus</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="items-list" id="listaBeneficios">
+                    <!-- Itens inseridos dinamicamente -->
+                </div>
+                <button class="btn-add" onclick="adicionarItem('beneficios', '', '')">+ Adicionar Benefício</button>
+            </div>
+
+            <!-- 5. Dívidas e Descontos Diversos -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        <div class="badge-icon">💳</div>
+                        <div>
+                            <div class="card-title">5. Dívidas / Outros Descontos</div>
+                            <div class="card-subtitle">Empréstimos, convênios, adiantamentos e contas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="items-list" id="listaDividas">
+                    <!-- Itens inseridos dinamicamente -->
+                </div>
+                <button class="btn-add" onclick="adicionarItem('dividas', '', '')">+ Adicionar Dívida</button>
+            </div>
+
+            <!-- PAINEL DE RESULTADOS DO SALÁRIO -->
+            <div class="summary-card">
+                <div class="summary-header">
+                    <span class="summary-title">Demonstrativo Mensal do Salário</span>
+                    <span class="summary-badge">CLT OFICIAL</span>
+                </div>
+
+                <div class="summary-row">
+                    <span class="label">Salário Base Calculado:</span>
+                    <span class="val" id="resBase">R$ 0,00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Desconto de Faltas:</span>
+                    <span class="val val-sub" id="resFaltas">- R$ 0,00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Feriados Trabalhados:</span>
+                    <span class="val val-add" id="resFeriados">+ R$ 0,00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Horas Extras + DSR:</span>
+                    <span class="val val-add" id="resHe">+ R$ 0,00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Previdência Social (INSS):</span>
+                    <span class="val val-sub" id="resInss">- R$ 0,00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Imposto de Renda (IRRF):</span>
+                    <span class="val val-sub" id="resIrrf">- R$ 0,00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Vale-Transporte (VT):</span>
+                    <span class="val val-sub" id="resVt">- R$ 0,00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Total de Benefícios:</span>
+                    <span class="val val-add" id="resBeneficios">+ R$ 0,00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Total de Dívidas:</span>
+                    <span class="val val-sub" id="resDividas">- R$ 0,00</span>
+                </div>
+
+                <div class="summary-total-box">
+                    <div class="summary-total-label">Salário Líquido a Receber</div>
+                    <div class="summary-total-val" id="resLiquido">R$ 0,00</div>
+                </div>
+            </div>
+
+            <button class="btn-action-primary" onclick="salvarTudo()">💾 Salvar Informações</button>
+            <button class="btn-action-outline" onclick="sincronizarSalarioComVale()">➡️ Usar Salário Base na Calculadora de Vale</button>
+
+        </div>
+
+        <!-- ==============================================
+             ABA 2: VALE & PROVISÃO PREVENTIVA
+             ============================================== -->
+        <div id="tab-vale" class="tab-content">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        <div class="badge-icon">🛡️</div>
+                        <div>
+                            <div class="card-title">1. Parâmetros do Vale (Adiantamento)</div>
+                            <div class="card-subtitle">Informe o salário bruto e a porcentagem paga no dia 20</div>
+                        </div>
+                    </div>
+                    <button class="chip-btn" onclick="sincronizarSalarioComVale()" title="Puxar o valor calculado da Calculadora CLT">🔄 Puxar da Aba 1</button>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="valeSalarioBruto">
+                            <span>Salário Bruto Base:</span>
+                            <span class="input-unit-badge">R$</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="valeSalarioBruto" step="0.01" placeholder="0.00" oninput="calcularGeral()">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="valePercentual">
+                            <span>Porcentagem do Vale:</span>
+                            <span class="input-unit-badge">%</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="valePercentual" step="1" value="30" oninput="calcularGeral()">
+                        </div>
+                        <div class="chips-container">
+                            <button class="chip-btn" onclick="setPercentualVale(20)">20%</button>
+                            <button class="chip-btn active" onclick="setPercentualVale(30)">30%</button>
+                            <button class="chip-btn" onclick="setPercentualVale(40)">40%</button>
+                            <button class="chip-btn" onclick="setPercentualVale(50)">50%</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parcelas de Empréstimos -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        <div class="badge-icon">📄</div>
+                        <div>
+                            <div class="card-title">2. Parcelas dos Empréstimos</div>
+                            <div class="card-subtitle">Provisão Preventiva proporcional ao percentual do vale</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="items-list" id="listaEmprestimos">
+                    <!-- Itens inseridos dinamicamente -->
+                </div>
+                <button class="btn-add" onclick="adicionarItem('emprestimos', '', '')">+ Adicionar Empréstimo</button>
+            </div>
+
+            <!-- PAINEL RESULTADOS DO VALE -->
+            <div class="summary-card">
+                <div class="summary-header">
+                    <span class="summary-title">Cálculo da Provisão Preventiva</span>
+                    <span class="summary-badge">DIA 20</span>
+                </div>
+
+                <div class="summary-row">
+                    <span class="label">Salário Bruto de Referência:</span>
+                    <span class="val" id="resValeSalario">R$ 0,00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Porcentagem de Adiantamento:</span>
+                    <span class="val" id="resValePct">0%</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Adiantamento Salarial Bruto:</span>
+                    <span class="val val-add" id="resValeBruto">R$ 0,00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Soma das Parcelas de Empréstimo:</span>
+                    <span class="val" id="resValeTotalEmp">R$ 0,00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Provisão Preventiva Retida:</span>
+                    <span class="val val-sub" id="resValeProvisao">- R$ 0,00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Margem Bruta Restante no Mês:</span>
+                    <span class="val val-highlight" id="resValeSaldoRestante">R$ 0,00</span>
+                </div>
+
+                <div class="summary-total-box">
+                    <div class="summary-total-label">Valor Líquido a Receber no Vale</div>
+                    <div class="summary-total-val" id="resValeLiquido">R$ 0,00</div>
+                </div>
+            </div>
+
+            <button class="btn-action-primary" onclick="salvarTudo()">💾 Salvar Informações</button>
+            <button class="btn-action-outline" onclick="mudarAba('balanco')">📊 Ver Balanço Consolidado do Mês</button>
+
+        </div>
+
+        <!-- ==============================================
+             ABA 3: BALANÇO CONSOLIDADO (FLUXO MENSAL)
+             ============================================== -->
+        <div id="tab-balanco" class="tab-content">
+
+            <!-- Card Destaque Geral -->
+            <div class="card" style="background: linear-gradient(135deg, #006c4c, #004d36); color: white; border: none;">
+                <div style="font-size: 0.88rem; opacity: 0.9; text-transform: uppercase; font-weight: 700;">Entrada Líquida Total no Mês</div>
+                <div style="font-size: 2.3rem; font-weight: 800; margin: 6px 0;" id="resBalancoTotalLiquido">R$ 0,00</div>
+                <div style="font-size: 0.8rem; opacity: 0.85;">Total líquido recebido no período (Vale Líquido + Salário Líquido CLT)</div>
+            </div>
+
+            <!-- Cronograma de Pagamentos -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        <div class="badge-icon">📅</div>
+                        <div>
+                            <div class="card-title">Cronograma de Recebimentos</div>
+                            <div class="card-subtitle">Fluxo de caixa previsto ao longo do mês</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-card">
+                    <div class="timeline-info">
+                        <div class="timeline-icon">💳</div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 0.95rem;">1º Pagamento: Vale Salarial</div>
+                            <div style="font-size: 0.78rem; color: var(--text-muted);">Dia 20 (com abatimento da provisão preventiva)</div>
+                        </div>
+                    </div>
+                    <div style="font-weight: 800; font-size: 1.1rem; color: var(--primary);" id="timelineVale">R$ 0,00</div>
+                </div>
+
+                <div class="timeline-card">
+                    <div class="timeline-info">
+                        <div class="timeline-icon">💰</div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 0.95rem;">2º Pagamento: Salário Final</div>
+                            <div style="font-size: 0.78rem; color: var(--text-muted);">5º dia útil (com deduções da CLT e benefícios)</div>
+                        </div>
+                    </div>
+                    <div style="font-weight: 800; font-size: 1.1rem; color: var(--primary);" id="timelineSalario">R$ 0,00</div>
+                </div>
+            </div>
+
+            <!-- Raio-X dos Descontos -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        <div class="badge-icon">🔍</div>
+                        <div>
+                            <div class="card-title">Raio-X de Todas as Retenções</div>
+                            <div class="card-subtitle">Transparência total sobre cada desconto</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-row" style="border-bottom: 1px solid var(--border-color); padding: 8px 0;">
+                    <span class="label" style="color: var(--text-main);">Previdência Social (INSS):</span>
+                    <span class="val val-sub" id="raioInss">R$ 0,00</span>
+                </div>
+                <div class="summary-row" style="border-bottom: 1px solid var(--border-color); padding: 8px 0;">
+                    <span class="label" style="color: var(--text-main);">Imposto de Renda (IRRF):</span>
+                    <span class="val val-sub" id="raioIrrf">R$ 0,00</span>
+                </div>
+                <div class="summary-row" style="border-bottom: 1px solid var(--border-color); padding: 8px 0;">
+                    <span class="label" style="color: var(--text-main);">Vale-Transporte (VT):</span>
+                    <span class="val val-sub" id="raioVt">R$ 0,00</span>
+                </div>
+                <div class="summary-row" style="border-bottom: 1px solid var(--border-color); padding: 8px 0;">
+                    <span class="label" style="color: var(--text-main);">Desconto de Faltas e Atrasos:</span>
+                    <span class="val val-sub" id="raioFaltas">R$ 0,00</span>
+                </div>
+                <div class="summary-row" style="border-bottom: 1px solid var(--border-color); padding: 8px 0;">
+                    <span class="label" style="color: var(--text-main);">Dívidas e Empréstimos CLT:</span>
+                    <span class="val val-sub" id="raioDividas">R$ 0,00</span>
+                </div>
+                <div class="summary-row" style="border-bottom: 1px solid var(--border-color); padding: 8px 0;">
+                    <span class="label" style="color: var(--text-main);">Provisão Preventiva Retida no Vale:</span>
+                    <span class="val val-sub" id="raioProvisao">R$ 0,00</span>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 14px; font-weight: 800; font-size: 1.05rem;">
+                    <span>Total Retido no Mês:</span>
+                    <span style="color: var(--danger);" id="raioTotalDescontos">- R$ 0,00</span>
+                </div>
+            </div>
+
+            <!-- Informativo FGTS -->
+            <div class="card" style="background: rgba(37, 99, 235, 0.08); border-color: rgba(37, 99, 235, 0.3);">
+                <div style="display: flex; gap: 12px; align-items: flex-start;">
+                    <div style="font-size: 1.4rem;">🏦</div>
+                    <div>
+                        <div style="font-weight: 700; color: var(--info);">FGTS Mensal Depositado pela Empresa (8%)</div>
+                        <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 2px;">
+                            Não é descontado do seu bolso. É depositado todo mês na sua conta vinculada da Caixa.
+                        </div>
+                        <div style="font-weight: 800; font-size: 1.25rem; color: var(--info); margin-top: 6px;" id="resFgts">R$ 0,00 / mês</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==============================================
+             ABA 4: EXTRAS & SIMULAÇÕES (13º, FÉRIAS, RESCISÃO)
+             ============================================== -->
+        <div id="tab-extras" class="tab-content">
+
+            <!-- 13º Salário -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        <div class="badge-icon">🎄</div>
+                        <div>
+                            <div class="card-title">Simulador de 13º Salário</div>
+                            <div class="card-subtitle">Cálculo proporcional com divisão em duas parcelas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="meses13">
+                            <span>Meses Trabalhados no Ano:</span>
+                            <span class="input-unit-badge">meses</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="meses13" step="1" min="1" max="12" value="12" oninput="calcularGeral()">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 8px;">
+                    <div class="timeline-card">
+                        <div>
+                            <div style="font-weight: 700;">1ª Parcela (Paga até 30/Nov)</div>
+                            <div style="font-size: 0.78rem; color: var(--text-muted);">50% adiantado sem nenhum desconto de INSS/IR</div>
+                        </div>
+                        <div style="font-weight: 800; color: var(--success);" id="res13Primeira">R$ 0,00</div>
+                    </div>
+                    <div class="timeline-card">
+                        <div>
+                            <div style="font-weight: 700;">2ª Parcela (Paga até 20/Dez)</div>
+                            <div style="font-size: 0.78rem; color: var(--text-muted);">Segunda metade com descontos legais</div>
+                        </div>
+                        <div style="font-weight: 800; color: var(--primary);" id="res13Segunda">R$ 0,00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Férias CLT -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        <div class="badge-icon">🏖️</div>
+                        <div>
+                            <div class="card-title">Simulador de Férias CLT</div>
+                            <div class="card-subtitle">Salário base + 1/3 Constitucional obrigatório</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="diasFerias">Dias de Férias a Gozar:</label>
+                        <select id="diasFerias" class="no-prefix" onchange="calcularGeral()">
+                            <option value="30" selected>30 Dias Completos</option>
+                            <option value="20">20 Dias (Vender 10 dias - Abono)</option>
+                            <option value="15">15 Dias (1ª Parcela)</option>
+                            <option value="10">10 Dias</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="summary-row" style="margin-top: 12px; border-bottom: 1px solid var(--border-color); padding: 6px 0;">
+                    <span class="label">Valor dos Dias de Férias:</span>
+                    <span class="val" id="resFeriasBase">R$ 0,00</span>
+                </div>
+                <div class="summary-row" style="border-bottom: 1px solid var(--border-color); padding: 6px 0;">
+                    <span class="label">1/3 Constitucional (+33,3%):</span>
+                    <span class="val val-add" id="resFeriasTerco">+ R$ 0,00</span>
+                </div>
+                <div class="summary-row" style="border-bottom: 1px solid var(--border-color); padding: 6px 0;">
+                    <span class="label">Descontos Legais Estimados (INSS/IR):</span>
+                    <span class="val val-sub" id="resFeriasDesc">- R$ 0,00</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 10px; font-weight: 800; font-size: 1.05rem;">
+                    <span>Líquido a Receber nas Férias:</span>
+                    <span style="color: var(--success);" id="resFeriasLiquido">R$ 0,00</span>
+                </div>
+            </div>
+
+            <!-- Gerenciamento de Dados -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        <div class="badge-icon">⚙️</div>
+                        <div>
+                            <div class="card-title">Gerenciamento e Backup</div>
+                            <div class="card-subtitle">Salve, limpe ou transfira seus dados</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <button class="btn-action-primary" onclick="salvarTudo()">💾 Salvar Dados no Dispositivo</button>
+                    <button class="btn-action-outline" onclick="exportarBackupJSON()">📤 Baixar Backup (Arquivo JSON)</button>
+                    <button class="btn-action-outline" onclick="resetarDados()" style="color: var(--danger); border-color: var(--danger);">🗑️ Restaurar Valores Padrão</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="mudarAba('salario')">
+            <span class="nav-icon">💼</span>
+            <span class="nav-label">Salário CLT</span>
+        </button>
+        <button class="nav-item" onclick="mudarAba('vale')">
+            <span class="nav-icon">🛡️</span>
+            <span class="nav-label">Vale & Provisão</span>
+        </button>
+        <button class="nav-item" onclick="mudarAba('balanco')">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Balanço Geral</span>
+        </button>
+        <button class="nav-item" onclick="mudarAba('extras')">
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-label">Extras</span>
+        </button>
+    </nav>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast">✅ Informações salvas com sucesso!</div>
+
+    <script>
+        // ESTADO GLOBAL DA APLICAÇÃO
+        let dadosApp = {
+            salarioHora: 0,
+            horasMes: 220,
+            horasFalta: 0,
+            horasDiariasTurno: 7.33,
+            qtdFeriados: 0,
+            percentualFeriado: 100,
+            he50: 0,
+            he100: 0,
+            calcularDsr: true,
+            descontarInss: true,
+            descontarIrrf: true,
+            numDependentes: 0,
+            pensaoAlimenticia: 0,
+            tipoVt: '6porcento',
+            valorVtFixo: 0,
+            beneficios: [],
+            dividas: [],
+            valeSalarioBruto: 0,
+            valePercentual: 30,
+            emprestimos: [],
+            meses13: 12,
+            diasFerias: 30,
+            tema: 'light'
+        };
+
+        window.onload = function() {
+            carregarTudo();
+            aplicarTema();
+            renderizarItens('beneficios');
+            renderizarItens('dividas');
+            renderizarItens('emprestimos');
+            atualizarVisibilidadeCampos();
+            calcularGeral();
+        };
+
+        // CONTROLE DE ABAS
+        function mudarAba(nomeAba) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+
+            const tabEl = document.getElementById('tab-' + nomeAba);
+            if (tabEl) tabEl.classList.add('active');
+
+            const navIndex = ['salario', 'vale', 'balanco', 'extras'].indexOf(nomeAba);
+            if (navIndex !== -1) {
+                document.querySelectorAll('.nav-item')[navIndex].classList.add('active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // TEMA DARK / LIGHT
+        function toggleTheme() {
+            const body = document.body;
+            const novoTema = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', novoTema);
+            dadosApp.tema = novoTema;
+            document.getElementById('themeToggleBtn').innerText = novoTema === 'dark' ? '☀️' : '🌙';
+            salvarLocalStorage();
+        }
+
+        function aplicarTema() {
+            const tema = dadosApp.tema || 'light';
+            document.body.setAttribute('data-theme', tema);
+            document.getElementById('themeToggleBtn').innerText = tema === 'dark' ? '☀️' : '🌙';
+        }
+
+        function setPercentualVale(pct) {
+            document.getElementById('valePercentual').value = pct;
+            document.querySelectorAll('.chips-container .chip-btn').forEach(btn => {
+                if (btn.innerText.includes(pct + '%')) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+            calcularGeral();
+        }
+
+        function atualizarVisibilidadeCampos() {
+            const tipoVt = document.getElementById('tipoVt').value;
+            const grupoVt = document.getElementById('grupoValorVt');
+            grupoVt.style.display = tipoVt === 'valorfixo' ? 'block' : 'none';
+
+            const descontarIrrf = document.getElementById('descontarIrrf').checked;
+            document.getElementById('grupoIrrf').style.display = descontarIrrf ? 'grid' : 'none';
+        }
+
+        // FORMATADOR DE MOEDA
+        function formatMoeda(val) {
+            return (val || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function parseNum(val) {
+            if (!val) return 0;
+            const s = String(val).replace(',', '.');
+            return parseFloat(s) || 0;
+        }
+
+        // LISTAS DINÂMICAS
+        function renderizarItens(tipo) {
+            const lista = tipo === 'beneficios' ? dadosApp.beneficios :
+                          (tipo === 'dividas' ? dadosApp.dividas : dadosApp.emprestimos);
+            const container = document.getElementById(
+                tipo === 'beneficios' ? 'listaBeneficios' :
+                (tipo === 'dividas' ? 'listaDividas' : 'listaEmprestimos')
+            );
+            container.innerHTML = '';
+
+            lista.forEach((item, index) => {
+                const row = document.createElement('div');
+                row.className = 'item-card';
+                row.innerHTML = `
+                    <input type="text" value="${item.desc || ''}" placeholder="Nome..." oninput="atualizarItemDesc('${tipo}', ${index}, this.value)">
+                    <div class="item-val-wrap">
+                        <input type="number" step="0.01" value="${item.valor !== undefined && item.valor !== 0 ? item.valor : ''}" placeholder="0.00" oninput="atualizarItemValor('${tipo}', ${index}, this.value)">
+                    </div>
+                    <button class="btn-delete" title="Excluir" onclick="removerItem('${tipo}', ${index})">✕</button>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function adicionarItem(tipo, descPadrao = '', valorPadrao = '') {
+            if (tipo === 'beneficios') dadosApp.beneficios.push({ desc: descPadrao, valor: valorPadrao });
+            else if (tipo === 'dividas') dadosApp.dividas.push({ desc: descPadrao, valor: valorPadrao });
+            else dadosApp.emprestimos.push({ desc: descPadrao, valor: valorPadrao });
+            renderizarItens(tipo);
+            calcularGeral();
+        }
+
+        function removerItem(tipo, index) {
+            if (tipo === 'beneficios') dadosApp.beneficios.splice(index, 1);
+            else if (tipo === 'dividas') dadosApp.dividas.splice(index, 1);
+            else dadosApp.emprestimos.splice(index, 1);
+            renderizarItens(tipo);
+            calcularGeral();
+        }
+
+        function atualizarItemDesc(tipo, index, val) {
+            const lista = tipo === 'beneficios' ? dadosApp.beneficios :
+                          (tipo === 'dividas' ? dadosApp.dividas : dadosApp.emprestimos);
+            if (lista[index]) lista[index].desc = val;
+            calcularGeral();
+        }
+
+        function atualizarItemValor(tipo, index, val) {
+            const lista = tipo === 'beneficios' ? dadosApp.beneficios :
+                          (tipo === 'dividas' ? dadosApp.dividas : dadosApp.emprestimos);
+            if (lista[index]) lista[index].valor = parseNum(val);
+            calcularGeral();
+        }
+
+        // MOTOR DE CÁLCULO DO INSS PROGRESSIVO (CLT)
+        function calcularInssProgressivo(salarioBaseComFaltas) {
+            const sb = Math.max(0, salarioBaseComFaltas);
+            if (sb <= 0) return 0;
+            let inss = 0;
+            if (sb <= 1412.00) {
+                inss = sb * 0.075;
+            } else if (sb <= 2666.68) {
+                inss = (1412.00 * 0.075) + ((sb - 1412.00) * 0.09);
+            } else if (sb <= 4000.03) {
+                inss = (1412.00 * 0.075) + ((2666.68 - 1412.00) * 0.09) + ((sb - 2666.68) * 0.12);
+            } else if (sb <= 7786.02) {
+                inss = (1412.00 * 0.075) + ((2666.68 - 1412.00) * 0.09) + ((4000.03 - 2666.68) * 0.12) + ((sb - 4000.03) * 0.14);
+            } else {
+                inss = 908.86; // Teto da previdência
+            }
+            return inss;
+        }
+
+        // MOTOR DE CÁLCULO DO IRRF PROGRESSIVO (CLT)
+        function calcularIrrf(salarioBruto, inss, dependentes, pensao) {
+            const deducaoDependentes = (dependentes || 0) * 189.59;
+            const baseLegal = Math.max(0, salarioBruto - inss - deducaoDependentes - (pensao || 0));
+            const baseSimplificada = Math.max(0, salarioBruto - 564.80);
+            const baseCalculo = Math.min(baseLegal, baseSimplificada);
+
+            let irrf = 0;
+            if (baseCalculo <= 2259.20) {
+                irrf = 0;
+            } else if (baseCalculo <= 2826.65) {
+                irrf = (baseCalculo * 0.075) - 169.44;
+            } else if (baseCalculo <= 3751.05) {
+                irrf = (baseCalculo * 0.15) - 381.44;
+            } else if (baseCalculo <= 4664.68) {
+                irrf = (baseCalculo * 0.225) - 662.77;
+            } else {
+                irrf = (baseCalculo * 0.275) - 896.00;
+            }
+            return Math.max(0, irrf);
+        }
+
+        // MOTOR PRINCIPAL DE CÁLCULO INTEGRADO
+        function calcularGeral() {
+            atualizarVisibilidadeCampos();
+
+            const salarioHora = parseNum(document.getElementById('salarioHora').value);
+            const horasMes = parseNum(document.getElementById('horasMes').value) || 220;
+            const horasFalta = parseNum(document.getElementById('horasFalta').value);
+            const horasDiariasTurno = parseNum(document.getElementById('horasDiariasTurno').value) || 7.33;
+            const qtdFeriados = parseNum(document.getElementById('qtdFeriados').value);
+            const percentualFeriado = parseNum(document.getElementById('percentualFeriado').value) || 100;
+            const he50 = parseNum(document.getElementById('he50').value);
+            const he100 = parseNum(document.getElementById('he100').value);
+            const calcularDsr = document.getElementById('calcularDsr').checked;
+
+            const salarioBase = salarioHora * horasMes;
+            const descontoFaltas = salarioHora * horasFalta;
+            const salarioAposFaltas = Math.max(0, salarioBase - descontoFaltas);
+
+            const horasFeriados = qtdFeriados * horasDiariasTurno;
+            const adicionalFeriados = horasFeriados * salarioHora * (percentualFeriado / 100);
+
+            const valorHe50 = he50 * (salarioHora * 1.5);
+            const valorHe100 = he100 * (salarioHora * 2.0);
+            const totalHe = valorHe50 + valorHe100;
+            let dsr = 0;
+            if (calcularDsr && totalHe > 0) {
+                dsr = (totalHe / 26) * 4;
+            }
+            const totalHeMaisDsr = totalHe + dsr;
+
+            const baseEncargos = salarioAposFaltas + adicionalFeriados + totalHeMaisDsr;
+
+            let descontoInss = 0;
+            if (document.getElementById('descontarInss').checked) {
+                descontoInss = calcularInssProgressivo(baseEncargos);
+            }
+
+            let descontoIrrf = 0;
+            if (document.getElementById('descontarIrrf').checked) {
+                const dep = parseNum(document.getElementById('numDependentes').value);
+                const pensao = parseNum(document.getElementById('pensaoAlimenticia').value);
+                descontoIrrf = calcularIrrf(baseEncargos, descontoInss, dep, pensao);
+            }
+
+            let descontoVt = 0;
+            const tipoVt = document.getElementById('tipoVt').value;
+            if (tipoVt === '6porcento') {
+                descontoVt = salarioBase * 0.06;
+            } else if (tipoVt === 'valorfixo') {
+                descontoVt = parseNum(document.getElementById('valorVtFixo').value);
+            }
+
+            let totalBeneficios = dadosApp.beneficios.reduce((acc, curr) => acc + (parseNum(curr.valor) || 0), 0);
+            let totalDividas = dadosApp.dividas.reduce((acc, curr) => acc + (parseNum(curr.valor) || 0), 0);
+
+            const salarioLiquido = (salarioAposFaltas + adicionalFeriados + totalHeMaisDsr - descontoInss - descontoIrrf - descontoVt + totalBeneficios) - totalDividas;
+
+            document.getElementById('resBase').innerText = formatMoeda(salarioBase);
+            document.getElementById('resFaltas').innerText = "- " + formatMoeda(descontoFaltas);
+            document.getElementById('resFeriados').innerText = "+ " + formatMoeda(adicionalFeriados);
+            document.getElementById('resHe').innerText = "+ " + formatMoeda(totalHeMaisDsr);
+            document.getElementById('resInss').innerText = "- " + formatMoeda(descontoInss);
+            document.getElementById('resIrrf').innerText = "- " + formatMoeda(descontoIrrf);
+            document.getElementById('resVt').innerText = "- " + formatMoeda(descontoVt);
+            document.getElementById('resBeneficios').innerText = "+ " + formatMoeda(totalBeneficios);
+            document.getElementById('resDividas').innerText = "- " + formatMoeda(totalDividas);
+            document.getElementById('resLiquido').innerText = formatMoeda(salarioLiquido);
+
+            const valeSalarioBruto = parseNum(document.getElementById('valeSalarioBruto').value);
+            const valePercentual = parseNum(document.getElementById('valePercentual').value);
+
+            const adiantamentoBruto = valeSalarioBruto * (valePercentual / 100);
+            const totalEmprestimos = dadosApp.emprestimos.reduce((acc, curr) => acc + (parseNum(curr.valor) || 0), 0);
+            const provisaoRetida = totalEmprestimos * (valePercentual / 100);
+            const valeLiquido = adiantamentoBruto - provisaoRetida;
+            const saldoRestanteSalario = Math.max(0, valeSalarioBruto - adiantamentoBruto);
+
+            document.getElementById('resValeSalario').innerText = formatMoeda(valeSalarioBruto);
+            document.getElementById('resValePct').innerText = valePercentual + "%";
+            document.getElementById('resValeBruto').innerText = formatMoeda(adiantamentoBruto);
+            document.getElementById('resValeTotalEmp').innerText = formatMoeda(totalEmprestimos);
+            document.getElementById('resValeProvisao').innerText = "- " + formatMoeda(provisaoRetida);
+            document.getElementById('resValeSaldoRestante').innerText = formatMoeda(saldoRestanteSalario);
+            document.getElementById('resValeLiquido').innerText = formatMoeda(valeLiquido);
+
+            const totalLiquidoPeriodo = valeLiquido + salarioLiquido;
+            const totalDescontosPeriodo = descontoInss + descontoIrrf + descontoVt + descontoFaltas + totalDividas + provisaoRetida;
+
+            document.getElementById('resBalancoTotalLiquido').innerText = formatMoeda(totalLiquidoPeriodo);
+            document.getElementById('timelineVale').innerText = formatMoeda(valeLiquido);
+            document.getElementById('timelineSalario').innerText = formatMoeda(salarioLiquido);
+
+            document.getElementById('raioInss').innerText = "- " + formatMoeda(descontoInss);
+            document.getElementById('raioIrrf').innerText = "- " + formatMoeda(descontoIrrf);
+            document.getElementById('raioVt').innerText = "- " + formatMoeda(descontoVt);
+            document.getElementById('raioFaltas').innerText = "- " + formatMoeda(descontoFaltas);
+            document.getElementById('raioDividas').innerText = "- " + formatMoeda(totalDividas);
+            document.getElementById('raioProvisao').innerText = "- " + formatMoeda(provisaoRetida);
+            document.getElementById('raioTotalDescontos').innerText = "- " + formatMoeda(totalDescontosPeriodo);
+
+            const depositoFgts = baseEncargos * 0.08;
+            document.getElementById('resFgts').innerText = formatMoeda(depositoFgts) + " / mês";
+
+            const meses13 = Math.min(12, Math.max(1, parseNum(document.getElementById('meses13').value) || 12));
+            const valor13Proporcional = (salarioBase / 12) * meses13;
+            const primeiraParcela13 = valor13Proporcional * 0.50;
+            const inss13 = calcularInssProgressivo(valor13Proporcional);
+            const segundaParcela13 = Math.max(0, (valor13Proporcional * 0.50) - inss13);
+
+            document.getElementById('res13Primeira').innerText = formatMoeda(primeiraParcela13);
+            document.getElementById('res13Segunda').innerText = formatMoeda(segundaParcela13);
+
+            const diasFerias = parseNum(document.getElementById('diasFerias').value) || 30;
+            const baseDiariaFerias = salarioBase / 30;
+            const valorDiasFerias = baseDiariaFerias * diasFerias;
+            const tercoConstitucional = valorDiasFerias / 3;
+            const totalBrutoFerias = valorDiasFerias + tercoConstitucional;
+            const inssFerias = calcularInssProgressivo(totalBrutoFerias);
+            const feriasLiquido = Math.max(0, totalBrutoFerias - inssFerias);
+
+            document.getElementById('resFeriasBase').innerText = formatMoeda(valorDiasFerias);
+            document.getElementById('resFeriasTerco').innerText = "+ " + formatMoeda(tercoConstitucional);
+            document.getElementById('resFeriasDesc').innerText = "- " + formatMoeda(inssFerias);
+            document.getElementById('resFeriasLiquido').innerText = formatMoeda(feriasLiquido);
+        }
+
+        function sincronizarSalarioComVale() {
+            const salarioHora = parseNum(document.getElementById('salarioHora').value);
+            const horasMes = parseNum(document.getElementById('horasMes').value) || 220;
+            const salarioBase = salarioHora * horasMes;
+
+            if (salarioBase > 0) {
+                document.getElementById('valeSalarioBruto').value = salarioBase.toFixed(2);
+                calcularGeral();
+                mostrarToast("Salário Base (R$ " + salarioBase.toFixed(2) + ") copiado para o Vale!");
+                mudarAba('vale');
+            } else {
+                mostrarToast("Preencha primeiro o Salário por Hora na Aba 1.");
+            }
+        }
+
+        function obterEstadoAtualFormulario() {
+            return {
+                salarioHora: document.getElementById('salarioHora').value,
+                horasMes: document.getElementById('horasMes').value,
+                horasFalta: document.getElementById('horasFalta').value,
+                horasDiariasTurno: document.getElementById('horasDiariasTurno').value,
+                qtdFeriados: document.getElementById('qtdFeriados').value,
+                percentualFeriado: document.getElementById('percentualFeriado').value,
+                he50: document.getElementById('he50').value,
+                he100: document.getElementById('he100').value,
+                calcularDsr: document.getElementById('calcularDsr').checked,
+                descontarInss: document.getElementById('descontarInss').checked,
+                descontarIrrf: document.getElementById('descontarIrrf').checked,
+                numDependentes: document.getElementById('numDependentes').value,
+                pensaoAlimenticia: document.getElementById('pensaoAlimenticia').value,
+                tipoVt: document.getElementById('tipoVt').value,
+                valorVtFixo: document.getElementById('valorVtFixo').value,
+                beneficios: dadosApp.beneficios,
+                dividas: dadosApp.dividas,
+                valeSalarioBruto: document.getElementById('valeSalarioBruto').value,
+                valePercentual: document.getElementById('valePercentual').value,
+                emprestimos: dadosApp.emprestimos,
+                meses13: document.getElementById('meses13').value,
+                diasFerias: document.getElementById('diasFerias').value,
+                tema: dadosApp.tema
+            };
+        }
+
+        function salvarLocalStorage() {
+            const estado = obterEstadoAtualFormulario();
+            localStorage.setItem('salario_financas_app_v4', JSON.stringify(estado));
+        }
+
+        function salvarTudo() {
+            salvarLocalStorage();
+            mostrarToast("Informações salvas com sucesso!");
+        }
+
+        function carregarTudo() {
+            const salvo = localStorage.getItem('salario_financas_app_v4');
+            if (!salvo) return;
+            try {
+                const d = JSON.parse(salvo);
+                if (d.salarioHora !== undefined) document.getElementById('salarioHora').value = d.salarioHora;
+                if (d.horasMes !== undefined) document.getElementById('horasMes').value = d.horasMes;
+                if (d.horasFalta !== undefined) document.getElementById('horasFalta').value = d.horasFalta;
+                if (d.horasDiariasTurno !== undefined) document.getElementById('horasDiariasTurno').value = d.horasDiariasTurno;
+                if (d.qtdFeriados !== undefined) document.getElementById('qtdFeriados').value = d.qtdFeriados;
+                if (d.percentualFeriado !== undefined) document.getElementById('percentualFeriado').value = d.percentualFeriado;
+                if (d.he50 !== undefined) document.getElementById('he50').value = d.he50;
+                if (d.he100 !== undefined) document.getElementById('he100').value = d.he100;
+                if (d.calcularDsr !== undefined) document.getElementById('calcularDsr').checked = d.calcularDsr;
+                if (d.descontarInss !== undefined) document.getElementById('descontarInss').checked = d.descontarInss;
+                if (d.descontarIrrf !== undefined) document.getElementById('descontarIrrf').checked = d.descontarIrrf;
+                if (d.numDependentes !== undefined) document.getElementById('numDependentes').value = d.numDependentes;
+                if (d.pensaoAlimenticia !== undefined) document.getElementById('pensaoAlimenticia').value = d.pensaoAlimenticia;
+                if (d.tipoVt !== undefined) document.getElementById('tipoVt').value = d.tipoVt;
+                if (d.valorVtFixo !== undefined) document.getElementById('valorVtFixo').value = d.valorVtFixo;
+                if (d.valeSalarioBruto !== undefined) document.getElementById('valeSalarioBruto').value = d.valeSalarioBruto;
+                if (d.valePercentual !== undefined) document.getElementById('valePercentual').value = d.valePercentual;
+                if (d.meses13 !== undefined) document.getElementById('meses13').value = d.meses13;
+                if (d.diasFerias !== undefined) document.getElementById('diasFerias').value = d.diasFerias;
+                if (d.tema !== undefined) dadosApp.tema = d.tema;
+
+                if (Array.isArray(d.beneficios)) dadosApp.beneficios = d.beneficios;
+                if (Array.isArray(d.dividas)) dadosApp.dividas = d.dividas;
+                if (Array.isArray(d.emprestimos)) dadosApp.emprestimos = d.emprestimos;
+            } catch (e) {
+                console.error("Erro ao carregar dados", e);
+            }
+        }
+
+        function resetarDados() {
+            if (confirm("Deseja realmente redefinir todos os dados para os valores padrão?")) {
+                localStorage.removeItem('salario_financas_app_v4');
+                location.reload();
+            }
+        }
+
+        function exportarBackupJSON() {
+            const estado = obterEstadoAtualFormulario();
+            const blob = new Blob([JSON.stringify(estado, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'backup_salario_financas.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            mostrarToast("Arquivo de backup baixado!");
+        }
+
+        function copiarResumoTexto() {
+            const resLiquido = document.getElementById('resLiquido').innerText;
+            const resVale = document.getElementById('resValeLiquido').innerText;
+            const resTotal = document.getElementById('resBalancoTotalLiquido').innerText;
+            const texto = `*Resumo Financeiro Mensal*\n\n` +
+                          `🛡️ *Vale (Dia 20):* ${resVale}\n` +
+                          `💼 *Salário Líquido (5º dia útil):* ${resLiquido}\n` +
+                          `💰 *Total Líquido do Mês:* ${resTotal}\n\n` +
+                          `_Gerado por Salário & Finanças Pro_`;
+
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(texto).then(() => {
+                    mostrarToast("Resumo copiado para a Área de Transferência!");
+                });
+            } else {
+                mostrarToast("Cópia não suportada pelo navegador.");
+            }
+        }
+
+        function mostrarToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
